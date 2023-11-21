@@ -4,27 +4,37 @@ import { Container, Box, Typography } from '@mui/material';
 import { useFetch } from '@/hooks/useFetch';
 import ButtonWithIcon from '../../Common/ButtonWithIcon';
 import Slider from './Slider';
-import { getEvents } from '@/api';
+import { getAllEvents, getEvents } from '@/api';
 import { EventsPreviewSection, EmptyEventsSection } from './styles';
 import { IEvent, IMuseumEventData } from '@/types';
 
 const EventsPreview: FC = () => {
   const [eventsData, setEventsData] = useState<IEvent[]>([]);
-
-  const paramRequest = useCallback(() => getEvents(6, 0), []);
-
-  const { data, isLoading, isFulfilled } = useFetch<IMuseumEventData, unknown>(paramRequest);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const paramRequest = useCallback(() => getEventById(title || ''), [title]);
 
   useEffect(() => {
-    if (isFulfilled) {
-      const content = data?.content || [];
-      setEventsData(content);
-    }
-  }, [data, isFulfilled]);
+    const getData = async () => {
+      setIsLoading(true);
+      const response = await getAllEvents();
+      return await response;
+    };
 
-  if (eventsData.length === 0 || isLoading) {
-    return <EmptyEventsSection />;
-  }
+    getData().then((data) => {
+      setEventsData(data);
+      setIsLoading(false);
+    });
+  }, []);
+  // useEffect(() => {
+  //   if (isFulfilled) {
+  //     const content = data?.content || [];
+  //     setEventsData(content);
+  //   }
+  // }, [data, isFulfilled]);
+
+  // if (eventsData.length === 0 || isLoading) {
+  //   return <EmptyEventsSection />;
+  // }
 
   return (
     <EventsPreviewSection>

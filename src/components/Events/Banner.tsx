@@ -3,14 +3,15 @@ import { FC } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { truncateDescription } from '../../helpers/truncateString';
 import { BannerWrapper, ButtonBox, ContentBox, TextBox } from './styles';
-
-const imageUrl = `${import.meta.env.VITE_IMAGE_SERVER_URL}`;
+import { urlFor } from '../../lib/client.js';
 
 interface MuseumEventProps {
   title: string;
   summary: string;
   banner: string;
   slug: string;
+  imgSrc: string;
+  shortDec: any[];
 }
 
 const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
@@ -21,7 +22,7 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
 
   return (
     <Grow in={true} timeout={1000}>
-      <BannerWrapper img={`${imageUrl}?filename=${event.banner}&type=${isSmallScreen ? 'PREVIEW' : 'ORIGINAL'}`}>
+      <BannerWrapper img={urlFor(event.imgSrc)}>
         <ContentBox>
           <TextBox>
             <Typography
@@ -36,13 +37,16 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
               sx={{
                 color: theme.palette.text.primary,
               }}>
-              {truncateDescription(event.summary, 200)}
+              {truncateDescription(
+                event.shortDec?.map((item) => item.text),
+                200
+              )}
             </Typography>
           </TextBox>
           <ButtonBox>
             <Button
               component={RouterLink}
-              to={event.slug}
+              to={event._id}
               sx={{
                 minWidth: { xs: '143px' },
                 borderColor: theme.palette.text.primary,

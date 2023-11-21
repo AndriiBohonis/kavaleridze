@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { IFormInput } from '../types';
-
+import { client } from '../lib/client.ts';
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 const instance = axios.create({
@@ -22,3 +22,32 @@ export const getEventById = (id: string) => {
 export const getMuseumData = () => {
   return instance.get(`/museum-data`);
 };
+
+export async function getAllEvents() {
+  return client.fetch(`*[_type == 'events']{
+  _id,
+  title,
+  start,
+  end,
+    'imgSrc':imgSrc.asset._ref,
+    'shortDec': shortDec[0].children,
+}
+  `);
+}
+export async function getCurrentEvents(id: string) {
+  return client.fetch(`*[_type == 'events' && _id == '${id}']{
+  _id,
+  title,
+  start,
+  end,
+  'imgSrc':imgSrc.asset._ref,
+  'shortDec': shortDec[0].children,
+   description
+  
+    }
+  `);
+}
+
+export async function getContacts() {
+  return client.fetch(`*[_type == 'contacts']`);
+}
