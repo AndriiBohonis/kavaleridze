@@ -23,11 +23,39 @@ export const getMuseumData = () => {
   return instance.get(`/museum-data`);
 };
 
+export const getSearchResults = async (query: string) => {
+  try {
+    const { data } = await instance.get(`/search/${query}`);
+    return data;
+  } catch (e) {
+    return null;
+  }
+};
+
+export const getSearchSanity = async (query: string) => {
+  const events = await client.fetch(`*[_type == 'events' && title match '${query}*']{
+  'id': _id,
+  title,
+ 'pathName':slug.current,
+  'description':shortDec[0].children[0].text,
+  'contentType':category,
+  }`);
+
+  const pages = await client.fetch(`*[_type == 'search'&& description match '${query}*']{
+   description,
+      pathName,
+          "title":name
+        }`);
+
+  return [...pages, ...events];
+};
+
 export async function getAllEvents() {
   return client.fetch(`*[_type == 'events']{
   _id,
   title,
   start,
+  isBanner,
   end,
   'slug':slug.current,
     'imgSrc':imgSrc.asset._ref,

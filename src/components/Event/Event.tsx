@@ -14,7 +14,7 @@ import EventTitle from './parts/EventTitle';
 import { ContentBox } from './styles';
 import { useParams } from 'react-router-dom';
 import { IEvent } from '@/types';
-import { getCurrentEvents, getEventById } from '@/api';
+import { getCurrentEvents } from '@/api';
 import { useFetch } from '@/hooks/useFetch';
 import Loader from '../Loader/Loader';
 import { urlFor } from '../../lib/client.ts';
@@ -45,7 +45,7 @@ const Event: FC = () => {
         {dataEvent && (
           <ContentBox>
             <EventTitle {...dataEvent} />
-            <EventDetails banner={urlFor(dataEvent.imgSrc)} content={dataEvent.description} />
+            <EventDetails banner={urlFor(dataEvent.imgSrc).auto('format').url()} content={dataEvent.description} />
             <BackToEventsBtn title={isMobile ? 'До всіх подій' : 'Повернутися до всіх подій'} />
           </ContentBox>
         )}

@@ -1,18 +1,19 @@
 import { Grow, Box, Button, Container, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { getAllEvents, getEvents } from '@/api';
-import { useFetch } from '@/hooks/useFetch';
+import { getAllEvents } from '@/api';
+
 import { formatDate } from '@/helpers/formatDate';
 import { truncateDescription } from '@/helpers/truncateString';
 import ButtonWithIcon from '../Common/ButtonWithIcon';
 import Section from '../Common/Section';
 import Loader from '../Loader/Loader';
 import Banner from './Banner';
-import EmptyEventsPage from './EmptyEventsPage';
+
 import { WrapperImg } from './styles';
-import { IEvent, IMuseumEventData } from '@/types';
+
 import { urlFor } from '../../lib/client.ts';
+import { visuallyHidden } from '@/styles/visually-hidden';
 
 const Events: FC = () => {
   const [cardsEvent, setCardsEvent] = useState<any[]>([]);
@@ -22,7 +23,6 @@ const Events: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     const getData = async () => {
@@ -37,7 +37,6 @@ const Events: FC = () => {
     });
   }, []);
 
-  console.log(totalEvents);
   const handlerLoadMore = () => {
     setIsButtonLoading(true);
     setCurrentPage((prevPage) => prevPage + 1);
@@ -46,6 +45,7 @@ const Events: FC = () => {
   };
 
   const bannerEvent = cardsEvent.filter((item) => item.isBanner)[0];
+
   const visibleEvents = cardsEvent.filter((item) => !item.isBanner).slice(1, pageSize);
 
   return (

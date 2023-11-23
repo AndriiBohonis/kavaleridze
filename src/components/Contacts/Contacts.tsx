@@ -1,10 +1,8 @@
-import { getContacts, getMuseumData } from '@/api';
-import { useFetch } from '@/hooks/useFetch.ts';
+import { getContacts } from '@/api';
 import { IMuseumData } from '@/types.js';
 import { Container, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useData from '@/hooks/useData.tsx';
 import Section from '../Common/Section.tsx';
 import FeedBackForm from '../Form/FeedBackForm.tsx';
 import ModalDialog from '../Form/ModalDialog.tsx';
@@ -16,7 +14,8 @@ const Contacts: FC = () => {
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [data, setData] = useState();
+  const [error, setError] = useState<Error>();
+  const [data, setData] = useState<IMuseumData>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,17 +39,19 @@ const Contacts: FC = () => {
   };
 
   useEffect(() => {
-    getContacts;
     const getData = async () => {
       setIsLoading(true);
       const response = await getContacts();
       return await response;
     };
 
-    getData().then((res) => {
-      setData(...res);
-      setIsLoading(false);
-    });
+    getData()
+      .then((res) => {
+        setData(res[0]);
+        console.log(res);
+        setIsLoading(false);
+      })
+      .catch((error) => setError(error));
   }, []);
 
   return (

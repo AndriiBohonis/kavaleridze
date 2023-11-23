@@ -22,7 +22,7 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
 
   return (
     <Grow in={true} timeout={1000}>
-      <BannerWrapper img={urlFor(event.imgSrc)}>
+      <BannerWrapper img={urlFor(event.imgSrc).url()}>
         <ContentBox>
           <TextBox>
             <Typography
@@ -38,7 +38,7 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
                 color: theme.palette.text.primary,
               }}>
               {truncateDescription(
-                event.shortDec?.map((item) => item.text),
+                event.shortDec?.map((item: any) => item.text),
                 200
               )}
             </Typography>
@@ -46,7 +46,7 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
           <ButtonBox>
             <Button
               component={RouterLink}
-              to={event._id}
+              to={event.slug}
               sx={{
                 minWidth: { xs: '143px' },
                 borderColor: theme.palette.text.primary,

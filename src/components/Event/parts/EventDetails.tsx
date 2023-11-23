@@ -1,16 +1,24 @@
-import { theme } from '@/theme';
-import { Box, BoxProps, Grow, Stack, Typography, TypographyProps, styled, useMediaQuery } from '@mui/material';
+import { Box, BoxProps, Grow, Stack, Typography, TypographyProps, styled } from '@mui/material';
 import { PortableText } from '@portabletext/react';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 interface EventDetailsProps {
   banner: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: any;
 }
 
+interface IBlokProps {
+  value: {
+    blank: string;
+    href: string;
+  };
+  children: ReactNode;
+}
 const components = {
   marks: {
-    link: ({ value, children }) => {
+    link: ({ value, children }: IBlokProps) => {
       const { blank, href } = value;
+      console.log(value);
       return blank ? (
         <a href={href} target="_blank" rel="noopener">
           {children}
