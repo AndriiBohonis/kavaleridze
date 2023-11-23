@@ -25,11 +25,11 @@ interface SearchListItemProps {
   pathName: string;
 }
 
-const SearchListItem: FC<SearchListItemProps> = ({ id, title, description, contentType, pathName }) => {
+const SearchListItem: FC<SearchListItemProps> = ({ title, description, contentType, pathName }) => {
   const [isMouseOn, setIsMouseOn] = useState(false);
   const theme = useTheme();
 
-  const isEventRoute = (id: string | undefined, contentType: string | undefined) => (contentType ? `/events/${pathName}` : pathName);
+  const isEventRoute = (id: string | undefined, contentType: string | undefined) => (contentType ? `/events/${id}` : pathName);
 
   const trimDescription = (desc: string, length: number): string => {
     if (desc.length > length) return desc.slice(0, length + 1) + '...';
@@ -51,7 +51,7 @@ const SearchListItem: FC<SearchListItemProps> = ({ id, title, description, conte
         <Stack
           spacing={2}
           component={RouterLink}
-          to={`${isEventRoute(id, contentType)}`}
+          to={`${isEventRoute(pathName, contentType)}`}
           onMouseEnter={() => setIsMouseOn(true)}
           onMouseLeave={() => setIsMouseOn(false)}>
           <Typography
