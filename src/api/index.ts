@@ -58,7 +58,7 @@ export async function getAllEvents() {
   isBanner,
   end,
   'slug':slug.current,
-    'imgSrc':imgSrc.asset._ref,
+    imgSrc,
     'shortDec': shortDec[0].children,
 }
   `);
@@ -69,7 +69,7 @@ export async function getCurrentEvents(slug: string) {
   title,
   start,
   end,
-  'imgSrc':imgSrc.asset._ref,
+  imgSrc,
   'shortDec': shortDec[0].children,
    description
   
