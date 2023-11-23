@@ -1,23 +1,23 @@
-import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { FC } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+
 import { Link as RouterLink } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { truncateDescription } from '@/helpers/truncateString';
 import { WrapperImg } from './styles';
 import { urlFor } from '../../../lib/client';
 
-interface IDataSliderProps {
-  title: string;
-  begin: string;
-  end: string;
-  description: string;
-  banner: string;
-  slug: string;
-}
+// interface IDataSliderProps {
+//   title: string;
+//   begin: string;
+//   end: string;
+//   description: string;
+//   banner: string;
+//   slug: string;
+// }
 
-interface IFullData {
-  sliderInfo: IDataSliderProps[];
-}
+// interface IFullData {
+//   sliderInfo: IDataSliderProps[];
+// }
 
 // Import Swiper styles
 import 'swiper/css';
@@ -32,9 +32,6 @@ import { Keyboard, Navigation, Pagination } from 'swiper/modules';
 import { formatDate } from '@/helpers/formatDate';
 
 const Slider = ({ sliderInfo }: any) => {
-  console.log(sliderInfo);
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <Swiper
       navigation={true}
@@ -46,7 +43,7 @@ const Slider = ({ sliderInfo }: any) => {
       spaceBetween={80}
       modules={[Navigation, Pagination, Keyboard]}
       className="mySwiper">
-      {sliderInfo.map((event) => (
+      {sliderInfo.map((event: any) => (
         <SwiperSlide key={event._id}>
           <Box sx={{ display: 'flex', flexDirection: { xs: 'column-reverse', md: 'row' }, gap: { xs: '24px', lg: '26px' } }}>
             <Box sx={{ width: { xs: '100%', lg: '452px' }, display: 'flex', flexDirection: 'column', gap: { xs: '24px', lg: '40px' } }}>
@@ -59,7 +56,7 @@ const Slider = ({ sliderInfo }: any) => {
                 </Typography>
                 <Typography variant="caption">
                   {truncateDescription(
-                    event.shortDec?.map((item) => item.text),
+                    event.shortDec?.map((item: { text: string }) => item.text),
                     150
                   )}
                 </Typography>

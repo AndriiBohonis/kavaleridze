@@ -1,12 +1,13 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Container, Box, Typography } from '@mui/material';
-import { useFetch } from '@/hooks/useFetch';
+
 import ButtonWithIcon from '../../Common/ButtonWithIcon';
 import Slider from './Slider';
-import { getAllEvents, getEvents } from '@/api';
-import { EventsPreviewSection, EmptyEventsSection } from './styles';
-import { IEvent, IMuseumEventData } from '@/types';
+import { getAllEvents } from '@/api';
+import { EventsPreviewSection } from './styles';
+import { IEvent } from '@/types';
+import Loader from '@/components/Loader/Loader';
 
 const EventsPreview: FC = () => {
   const [eventsData, setEventsData] = useState<IEvent[]>([]);
@@ -28,6 +29,7 @@ const EventsPreview: FC = () => {
   return (
     <EventsPreviewSection>
       <Container>
+        {isLoading && <Loader visible={isLoading} />}
         <Box
           sx={{
             display: 'flex',

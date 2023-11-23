@@ -90,7 +90,7 @@ const EventDetails: FC<EventDetailsProps> = ({ banner, content }) => {
               paddingBottom: '10px',
             },
           }}>
-          <PortableText value={content} components={components} />
+          <PortableText value={content} components={components as any} />
         </EventText>
       </Grow>
     </Stack>

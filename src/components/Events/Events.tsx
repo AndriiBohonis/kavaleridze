@@ -1,5 +1,5 @@
-import { Grow, Box, Button, Container, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { Grow, Box, Button, Container, Typography, useTheme } from '@mui/material';
+import { FC, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { getAllEvents } from '@/api';
 
@@ -92,7 +92,7 @@ const Events: FC = () => {
                             </Typography>
                             <Typography variant="caption">
                               {truncateDescription(
-                                event.shortDec?.map((item) => item.text),
+                                event.shortDec?.map((item: { text: string }) => item.text),
                                 150
                               )}
                             </Typography>
