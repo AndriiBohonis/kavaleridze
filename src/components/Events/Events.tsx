@@ -50,6 +50,9 @@ const Events: FC = () => {
 
   return (
     <Section variant="light">
+      <Typography variant="h1" sx={visuallyHidden}>
+        Події
+      </Typography>
       {isLoading && <Loader visible={isLoading} />}
       {cardsEvent && (
         <>

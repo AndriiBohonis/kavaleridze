@@ -29,7 +29,6 @@ export async function getAllEvents() {
   title,
   start,
   end,
-  isBanner,
   'slug':slug.current,
     'imgSrc':imgSrc.asset._ref,
     'shortDec': shortDec[0].children,

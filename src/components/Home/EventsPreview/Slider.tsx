@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { truncateDescription } from '@/helpers/truncateString';
 import { WrapperImg } from './styles';
 import { urlFor } from '../../../lib/client';
-const imageUrl = `${import.meta.env.VITE_IMAGE_SERVER_URL}`;
 
 interface IDataSliderProps {
   title: string;

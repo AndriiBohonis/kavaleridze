@@ -2,7 +2,12 @@ import { FC, useEffect, useState } from 'react';
 
 import { Container, useMediaQuery, useTheme } from '@mui/material';
 
+import { getEventById } from '@/api';
+import { useFetch } from '@/hooks/useFetch';
+import { IEvent } from '@/types';
+import { useNavigate, useParams } from 'react-router-dom';
 import Section from '../Common/Section';
+import Loader from '../Loader/Loader';
 import BackToEventsBtn from './parts/BackToEventsBtn';
 import EventDetails from './parts/EventDetails';
 import EventTitle from './parts/EventTitle';

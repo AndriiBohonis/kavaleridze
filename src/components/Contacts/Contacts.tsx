@@ -3,18 +3,28 @@ import { useFetch } from '@/hooks/useFetch.ts';
 import { IMuseumData } from '@/types.js';
 import { Container, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useData from '@/hooks/useData.tsx';
 import Section from '../Common/Section.tsx';
 import FeedBackForm from '../Form/FeedBackForm.tsx';
 import ModalDialog from '../Form/ModalDialog.tsx';
 import Loader from '../Loader/Loader.tsx';
 import { BoxContact, ContactButton, ContactItem, ContactLink, ContactList, ContactPaper, Paragraph, Title } from './styles';
-import { useNavigate } from 'react-router-dom';
+import { visuallyHidden } from '@/styles/visually-hidden.ts';
+
 const Contacts: FC = () => {
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error) {
+      navigate('404');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,6 +57,9 @@ const Contacts: FC = () => {
     <>
       <Section variant="light">
         <Container>
+          <Typography variant="h1" sx={visuallyHidden}>
+            Контакти музею
+          </Typography>
           {isLoading ? (
             <Loader visible={isLoading} />
           ) : (
