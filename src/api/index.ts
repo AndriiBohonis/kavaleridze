@@ -29,13 +29,15 @@ export async function getAllEvents() {
   title,
   start,
   end,
+  isBanner,
+  'slug':slug.current,
     'imgSrc':imgSrc.asset._ref,
     'shortDec': shortDec[0].children,
 }
   `);
 }
-export async function getCurrentEvents(id: string) {
-  return client.fetch(`*[_type == 'events' && _id == '${id}']{
+export async function getCurrentEvents(slug: string) {
+  return client.fetch(`*[_type == 'events' && slug.current  == '${slug}']{
   _id,
   title,
   start,

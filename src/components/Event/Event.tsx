@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Container, useMediaQuery, useTheme } from '@mui/material';
 
@@ -7,7 +7,7 @@ import BackToEventsBtn from './parts/BackToEventsBtn';
 import EventDetails from './parts/EventDetails';
 import EventTitle from './parts/EventTitle';
 import { ContentBox } from './styles';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { IEvent } from '@/types';
 import { getCurrentEvents, getEventById } from '@/api';
 import { useFetch } from '@/hooks/useFetch';
@@ -17,18 +17,8 @@ const Event: FC = () => {
   const { breakpoints } = useTheme();
   const isMobile = useMediaQuery(breakpoints.down('md'));
   const { title } = useParams();
-  // const [breadcrumbTitle, setBreadcrumbTitle] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // const paramRequest = useCallback(() => getEventById(title || ''), [title]);
   const [dataEvent, setDataEvent] = useState();
-  // const { data, isLoading, isFulfilled, error } = useFetch<IEvent, unknown>(paramRequest);
-
-  // useEffect(() => {
-  //   if (isFulfilled && data) {
-  //     setBreadcrumbTitle(data.title);
-  //     navigate(`/events/${data.slug}`, { state: { title: breadcrumbTitle } });
-  //   }
-  // }, [isFulfilled, data, navigate, breadcrumbTitle]);
 
   useEffect(() => {
     const getData = async () => {
@@ -38,10 +28,10 @@ const Event: FC = () => {
     };
 
     getData().then((data) => {
-      setDataEvent(...data);
+      setDataEvent(data[0]);
       setIsLoading(false);
     });
-  }, []);
+  }, [title]);
 
   return (
     <Section variant="light">

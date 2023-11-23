@@ -66,17 +66,17 @@ const Slider = ({ sliderInfo }: any) => {
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'flex-start' } }}>
-                <Button
-                  component={RouterLink}
-                  to={`events/${event._id}`}
-                  variant="secondary"
-                  sx={{ width: { xs: '288px', md: '242px', lg: '248px' }, height: '48px', fontSize: { xs: '16px', lg: '18px' } }}>
-                  Детальніше про подію
-                </Button>
+                <RouterLink state={{ title: event.title }} to={`events/${event.slug}`}>
+                  <Button
+                    variant="secondary"
+                    sx={{ width: { xs: '288px', md: '242px', lg: '248px' }, height: '48px', fontSize: { xs: '16px', lg: '18px' } }}>
+                    Детальніше про подію
+                  </Button>
+                </RouterLink>
               </Box>
             </Box>
-            <WrapperImg sx={{}}>
-              <img src={urlFor(event.imgSrc)} />
+            <WrapperImg>
+              <img src={urlFor(event.imgSrc).url()} />
             </WrapperImg>
           </Box>
         </SwiperSlide>

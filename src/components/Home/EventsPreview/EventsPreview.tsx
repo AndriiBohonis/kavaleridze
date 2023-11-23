@@ -11,7 +11,6 @@ import { IEvent, IMuseumEventData } from '@/types';
 const EventsPreview: FC = () => {
   const [eventsData, setEventsData] = useState<IEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // const paramRequest = useCallback(() => getEventById(title || ''), [title]);
 
   useEffect(() => {
     const getData = async () => {
@@ -25,16 +24,6 @@ const EventsPreview: FC = () => {
       setIsLoading(false);
     });
   }, []);
-  // useEffect(() => {
-  //   if (isFulfilled) {
-  //     const content = data?.content || [];
-  //     setEventsData(content);
-  //   }
-  // }, [data, isFulfilled]);
-
-  // if (eventsData.length === 0 || isLoading) {
-  //   return <EmptyEventsSection />;
-  // }
 
   return (
     <EventsPreviewSection>

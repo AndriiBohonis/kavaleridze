@@ -16,11 +16,11 @@ import { urlFor } from '../../lib/client.ts';
 
 const Events: FC = () => {
   const [cardsEvent, setCardsEvent] = useState<any[]>([]);
-  // const [currentPage, setCurrentPage] = useState<number>(0);
-  // const [totalEvents, setTotalEvents] = useState<number>(0);
-  // const [pageSize, setPageSize] = useState(4);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalEvents, setTotalEvents] = useState<number>(0);
+  const [pageSize, setPageSize] = useState(4);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
+  const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -30,38 +30,30 @@ const Events: FC = () => {
       const response = await getAllEvents();
       return await response;
     };
-
     getData().then((data) => {
       setCardsEvent(data);
       setIsLoading(false);
+      setTotalEvents(data.length);
     });
   }, []);
-  // useEffect(() => {
-  //   if (isFulfilled) {
-  //     setIsLoading(false);
-  //     const totalEvents = data?.totalElements || 0;
-  //     const content = data?.content || [];
 
-  //     setCardsEvent((prevEvents) => [...prevEvents, ...content]);
-  //     setTotalEvents(totalEvents);
-  //   }
-  // }, [data, isFulfilled]);
+  console.log(totalEvents);
+  const handlerLoadMore = () => {
+    setIsButtonLoading(true);
+    setCurrentPage((prevPage) => prevPage + 1);
+    setPageSize((prevPage) => prevPage + 3);
+    setIsButtonLoading(false);
+  };
 
-  // const handlerLoadMore = () => {
-  //   setIsButtonLoading(true);
-  //   setCurrentPage((prevPage) => prevPage + 1);
-  //   setPageSize((prevPage) => prevPage + 3);
-  //   setIsButtonLoading(false);
-  // };
-
-  const bannerEvent = cardsEvent[3];
-  // const visibleEvents = cardsEvent.slice(1, pageSize);
+  const bannerEvent = cardsEvent.filter((item) => item.isBanner)[0];
+  const visibleEvents = cardsEvent.filter((item) => !item.isBanner).slice(1, pageSize);
 
   return (
     <Section variant="light">
-      {!isLoading && (
+      {isLoading && <Loader visible={isLoading} />}
+      {cardsEvent && (
         <>
-          <Banner event={bannerEvent} />
+          {bannerEvent && <Banner event={bannerEvent} />}
           <Box
             sx={{
               display: 'flex',
@@ -71,7 +63,7 @@ const Events: FC = () => {
               paddingBottom: { xs: '40px', md: '32px' },
             }}>
             {cardsEvent &&
-              cardsEvent.map((event) => (
+              visibleEvents.map((event) => (
                 <Grow key={event._id} in={true} timeout={1200}>
                   <Container sx={{ borderBottom: `1px solid ${theme.palette.gray.main} ` }}>
                     <Box sx={{ padding: { xs: '24px 0' } }}>
@@ -82,7 +74,7 @@ const Events: FC = () => {
                           gap: { xs: '16px', md: '24px', lg: '48px' },
                         }}>
                         <WrapperImg>
-                          <img src={urlFor(event.imgSrc)} alt="event logo" />
+                          <img src={urlFor(event.imgSrc).url()} alt="event logo" />
                         </WrapperImg>
                         <Box>
                           <Box
@@ -102,14 +94,14 @@ const Events: FC = () => {
                               )}
                             </Typography>
                           </Box>
-                          <ButtonWithIcon
-                            variant="tertiary"
-                            component={RouterLink}
-                            sx={{ marginTop: '24px' }}
-                            to={event._id}
-                            svgSpriteId="breadcrumbsSeparator_icon"
-                            title="Читати далі"
-                          />
+                          <RouterLink state={{ title: event.title }} to={event.slug}>
+                            <ButtonWithIcon
+                              variant="tertiary"
+                              sx={{ marginTop: '24px' }}
+                              svgSpriteId="breadcrumbsSeparator_icon"
+                              title="Читати далі"
+                            />
+                          </RouterLink>
                         </Box>
                       </Box>
                     </Box>
@@ -117,13 +109,13 @@ const Events: FC = () => {
                 </Grow>
               ))}
           </Box>
-          {/* <Box sx={{ width: '100%', textAlign: 'center', marginBottom: { xs: '60px', md: '80px' } }}>
+          <Box sx={{ width: '100%', textAlign: 'center', marginBottom: { xs: '60px', md: '80px' } }}>
             {currentPage * pageSize < totalEvents && !isButtonLoading && (
-              <Button sx={{ width: '248px' }} variant="secondary">
+              <Button onClick={handlerLoadMore} sx={{ width: '248px' }} variant="secondary">
                 Показати більше
               </Button>
             )}
-          </Box> */}
+          </Box>
         </>
       )}
     </Section>
