@@ -29,7 +29,7 @@ const SearchListItem: FC<SearchListItemProps> = ({ id, title, description, conte
   const [isMouseOn, setIsMouseOn] = useState(false);
   const theme = useTheme();
 
-  const isEventRoute = (id: string | undefined, contentType: string | undefined) => (contentType ? `/events/${id}` : pathName);
+  const isEventRoute = (id: string | undefined, contentType: string | undefined) => (contentType ? `/events/${pathName}` : pathName);
 
   const trimDescription = (desc: string, length: number): string => {
     if (desc.length > length) return desc.slice(0, length + 1) + '...';
