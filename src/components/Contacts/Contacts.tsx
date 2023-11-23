@@ -1,7 +1,8 @@
+import { getContacts } from '@/api';
+import { IMuseumData } from '@/types.js';
 import { Container, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useData from '@/hooks/useData.tsx';
 import Section from '../Common/Section.tsx';
 import FeedBackForm from '../Form/FeedBackForm.tsx';
 import ModalDialog from '../Form/ModalDialog.tsx';
@@ -12,7 +13,9 @@ import { visuallyHidden } from '@/styles/visually-hidden.ts';
 const Contacts: FC = () => {
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const { data, isLoading, error } = useData();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<Error>();
+  const [data, setData] = useState<IMuseumData>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +38,22 @@ const Contacts: FC = () => {
     setOpenDialog(false);
   };
 
+  useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      const response = await getContacts();
+      return await response;
+    };
+
+    getData()
+      .then((res) => {
+        setData(res[0]);
+        console.log(res);
+        setIsLoading(false);
+      })
+      .catch((error) => setError(error));
+  }, []);
+
   return (
     <>
       <Section variant="light">
@@ -45,40 +64,42 @@ const Contacts: FC = () => {
           {isLoading ? (
             <Loader visible={isLoading} />
           ) : (
-            <ContactPaper>
-              <ContactList>
-                <ContactItem>
-                  <Title variant="h3">Подзвонити до нас</Title>
-                  <ContactLink href={`tel:${data?.phoneNumber}`} className="Blondie">
-                    <Typography component="span" variant="body1">
-                      {data?.phoneNumber}
-                    </Typography>
-                  </ContactLink>
-                </ContactItem>
-                <ContactItem>
-                  <Title variant="h3">Як нас знайти</Title>
-                  <BoxContact>
-                    <Paragraph>
-                      <strong>Метро:</strong> {data?.subwayRoute}
-                    </Paragraph>
-                    <Paragraph>
-                      <strong>Фунікулер:</strong> {data?.funicularRoute}
-                    </Paragraph>
-                    <Paragraph>
-                      <strong>Автобус:</strong> {data?.busRoute}
-                    </Paragraph>
-                  </BoxContact>
-                </ContactItem>
-                <ContactItem>
-                  <Title variant="h3">Написати нам</Title>
-                  <ContactButton onClick={handleClickOpen} variant="text">
-                    <Typography component="span" variant="body1">
-                      {data?.email}
-                    </Typography>
-                  </ContactButton>
-                </ContactItem>
-              </ContactList>
-            </ContactPaper>
+            data && (
+              <ContactPaper>
+                <ContactList>
+                  <ContactItem>
+                    <Title variant="h3">Подзвонити до нас</Title>
+                    <ContactLink href={`tel:${data?.tel}`} className="Blondie">
+                      <Typography component="span" variant="body1">
+                        {data?.tel}
+                      </Typography>
+                    </ContactLink>
+                  </ContactItem>
+                  <ContactItem>
+                    <Title variant="h3">Як нас знайти</Title>
+                    <BoxContact>
+                      <Paragraph>
+                        <strong>Метро:</strong> {data?.underground}
+                      </Paragraph>
+                      <Paragraph>
+                        <strong>Фунікулер:</strong> {data?.funicular}
+                      </Paragraph>
+                      <Paragraph>
+                        <strong>Автобус:</strong> {data?.bus}
+                      </Paragraph>
+                    </BoxContact>
+                  </ContactItem>
+                  <ContactItem>
+                    <Title variant="h3">Написати нам</Title>
+                    <ContactButton onClick={handleClickOpen} variant="text">
+                      <Typography component="span" variant="body1">
+                        {data?.email}
+                      </Typography>
+                    </ContactButton>
+                  </ContactItem>
+                </ContactList>
+              </ContactPaper>
+            )
           )}
         </Container>
       </Section>

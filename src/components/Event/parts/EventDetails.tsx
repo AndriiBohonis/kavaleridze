@@ -1,15 +1,35 @@
-import { theme } from '@/theme';
-import { Box, BoxProps, Grow, Stack, Typography, TypographyProps, styled, useMediaQuery } from '@mui/material';
-import { FC } from 'react';
-
+import { Box, BoxProps, Grow, Stack, Typography, TypographyProps, styled } from '@mui/material';
+import { PortableText } from '@portabletext/react';
+import { FC, ReactNode } from 'react';
 interface EventDetailsProps {
   banner: string;
-  content: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  content: any;
 }
-const imageUrl = `${import.meta.env.VITE_IMAGE_SERVER_URL}`;
 
+interface IBlokProps {
+  value: {
+    blank: string;
+    href: string;
+  };
+  children: ReactNode;
+}
+const components = {
+  marks: {
+    link: ({ value, children }: IBlokProps) => {
+      const { blank, href } = value;
+      console.log(value);
+      return blank ? (
+        <a href={href} target="_blank" rel="noopener">
+          {children}
+        </a>
+      ) : (
+        <a href={href}>{children}</a>
+      );
+    },
+  },
+};
 const EventDetails: FC<EventDetailsProps> = ({ banner, content }) => {
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   const ImageBox = styled(Box)<BoxProps>(({ theme }) => ({
     borderRadius: '4px',
     overflow: 'hidden',
@@ -50,7 +70,7 @@ const EventDetails: FC<EventDetailsProps> = ({ banner, content }) => {
         <Grow in={true} timeout={1000}>
           <Box
             component={'img'}
-            src={`${imageUrl}?filename=${banner}&type=${isSmallScreen ? 'PREVIEW' : 'ORIGINAL'}`}
+            src={banner}
             sx={{
               width: '100%',
               height: 'auto',
@@ -59,11 +79,20 @@ const EventDetails: FC<EventDetailsProps> = ({ banner, content }) => {
         </Grow>
       </ImageBox>
 
-      {content.map((text, i) => (
-        <Grow key={i} in={true} timeout={1200}>
-          <EventText>{text}</EventText>
-        </Grow>
-      ))}
+      <Grow in={true} timeout={1200}>
+        <EventText
+          component={'div'}
+          sx={{
+            '& a': {
+              color: (theme) => theme.palette.primary.light,
+            },
+            '& p': {
+              paddingBottom: '10px',
+            },
+          }}>
+          <PortableText value={content} components={components as any} />
+        </EventText>
+      </Grow>
     </Stack>
   );
 };

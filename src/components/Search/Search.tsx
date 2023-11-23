@@ -8,7 +8,7 @@ import SearchListItem from './parts/SearchListItem';
 import SearchResultsInput from './parts/SearchResultsInput';
 import ShowMoreBtn from './parts/ShowMoreBtn.tsx';
 import Loader from '../Loader/Loader.tsx';
-import { getSearchResults } from '@/api/index.ts';
+import { getSearchSanity } from '@/api/index.ts';
 import { getStringFromQuery } from './heplers.ts';
 import { ContentBox, SearchResultsWrapper } from './styles.ts';
 
@@ -17,6 +17,7 @@ interface Data {
   title: string;
   description?: string;
   contentType?: string;
+  pathName: string;
 }
 
 const Search: FC = () => {
@@ -38,13 +39,13 @@ const Search: FC = () => {
   const updateInputVal: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => setInputValue(e.target.value);
 
   const fetchData = async (inputValue: string) => {
-    const query = encodeURIComponent(inputValue);
-    const data = await getSearchResults(query);
+    const data = await getSearchSanity(inputValue);
+
     if (data !== null && data.length) setData(data);
     else setData([]);
     setIsLoading(false);
   };
-
+  console.log(data);
   const onSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     if (inputValue.length > 2) {

@@ -44,12 +44,11 @@ export interface IMuseumEventData {
 
 export interface IMuseumData {
   id: string;
-  phoneNumber: string;
+  tel: string;
   email: string;
-  subwayRoute: string;
-  busRoute: string;
-  funicularRoute: string;
-  totalElements: number;
+  underground: string;
+  bus: string;
+  funicular: string;
 }
 
 export interface IFormInput {

@@ -3,11 +3,11 @@ import { FC } from 'react';
 
 interface EventTitleProps {
   title: string;
-  begin?: string;
+  start?: string;
   end?: string;
 }
 
-const EventTitle: FC<EventTitleProps> = ({ title, begin, end }) => {
+const EventTitle: FC<EventTitleProps> = ({ title, start, end }) => {
   return (
     <Box
       sx={{
@@ -21,11 +21,11 @@ const EventTitle: FC<EventTitleProps> = ({ title, begin, end }) => {
 
       {end ? (
         <Typography component={'p'} variant="subhead" sx={{ paddingTop: '16px' }}>
-          {begin} &mdash; {end}
+          {start} &mdash; {end}
         </Typography>
       ) : (
         <Typography component={'p'} variant="subhead" sx={{ paddingTop: '16px' }}>
-          {begin}
+          {start}
         </Typography>
       )}
     </Box>

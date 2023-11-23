@@ -1,51 +1,51 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Container, useMediaQuery, useTheme } from '@mui/material';
 
-import { getEventById } from '@/api';
-import { useFetch } from '@/hooks/useFetch';
-import { IEvent } from '@/types';
-import { useNavigate, useParams } from 'react-router-dom';
 import Section from '../Common/Section';
 import Loader from '../Loader/Loader';
 import BackToEventsBtn from './parts/BackToEventsBtn';
 import EventDetails from './parts/EventDetails';
 import EventTitle from './parts/EventTitle';
 import { ContentBox } from './styles';
+import { useParams } from 'react-router-dom';
 
+import { getCurrentEvents } from '@/api';
+
+import { urlFor } from '../../lib/client.ts';
+
+interface IData {
+  imgSrc: string;
+  description: any;
+}
 const Event: FC = () => {
-  const navigate = useNavigate();
   const { breakpoints } = useTheme();
   const isMobile = useMediaQuery(breakpoints.down('md'));
   const { title } = useParams();
-
-  const [breadcrumbTitle, setBreadcrumbTitle] = useState<string>('');
-
-  const paramRequest = useCallback(() => getEventById(title || ''), [title]);
-
-  const { data, isLoading, isFulfilled, error } = useFetch<IEvent, unknown>(paramRequest);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [dataEvent, setDataEvent] = useState<IData>();
 
   useEffect(() => {
-    if (isFulfilled && data) {
-      setBreadcrumbTitle(data.title);
-      navigate(`/events/${data.slug}`, { state: { title: breadcrumbTitle } });
-    }
-  }, [isFulfilled, data, navigate, breadcrumbTitle]);
+    const getData = async () => {
+      setIsLoading(true);
+      const response = await getCurrentEvents(title || '');
+      return await response;
+    };
 
-  useEffect(() => {
-    if (error) {
-      navigate('404');
-    }
-  }, [error]);
+    getData().then((data) => {
+      setDataEvent(data[0]);
+      setIsLoading(false);
+    });
+  }, [title]);
 
   return (
     <Section variant="light">
       <Container>
         {isLoading && <Loader visible={isLoading} />}
-        {data && (
+        {dataEvent && (
           <ContentBox>
-            <EventTitle {...data} />
-            <EventDetails banner={data.banner} content={data.description.split('\n\n')} />
+            <EventTitle {...(dataEvent as any)} />
+            <EventDetails banner={urlFor(dataEvent?.imgSrc).url()} content={dataEvent.description} />
             <BackToEventsBtn title={isMobile ? 'До всіх подій' : 'Повернутися до всіх подій'} />
           </ContentBox>
         )}

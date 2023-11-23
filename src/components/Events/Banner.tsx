@@ -3,14 +3,18 @@ import { FC } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { truncateDescription } from '../../helpers/truncateString';
 import { BannerWrapper, ButtonBox, ContentBox, TextBox } from './styles';
-
-const imageUrl = `${import.meta.env.VITE_IMAGE_SERVER_URL}`;
+import { urlFor } from '../../lib/client.js';
 
 interface MuseumEventProps {
   title: string;
   summary: string;
   banner: string;
   slug: string;
+  imgSrc: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  shortDec: {
+    text: string;
+  }[];
 }
 
 const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
@@ -21,7 +25,7 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
 
   return (
     <Grow in={true} timeout={1000}>
-      <BannerWrapper img={`${imageUrl}?filename=${event.banner}&type=${isSmallScreen ? 'PREVIEW' : 'ORIGINAL'}`}>
+      <BannerWrapper img={urlFor(event.imgSrc).url()}>
         <ContentBox>
           <TextBox>
             <Typography
@@ -36,7 +40,7 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
               sx={{
                 color: theme.palette.text.primary,
               }}>
-              {truncateDescription(event.summary, 200)}
+              {truncateDescription(event?.shortDec?.map((item) => item.text).toString(), 200)}
             </Typography>
           </TextBox>
           <ButtonBox>

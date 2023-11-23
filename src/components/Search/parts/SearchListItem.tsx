@@ -22,13 +22,14 @@ interface SearchListItemProps {
   title?: string;
   description?: string;
   contentType?: string;
+  pathName: string;
 }
 
-const SearchListItem: FC<SearchListItemProps> = ({ id, title, description, contentType }) => {
+const SearchListItem: FC<SearchListItemProps> = ({ id, title, description, contentType, pathName }) => {
   const [isMouseOn, setIsMouseOn] = useState(false);
   const theme = useTheme();
 
-  const isEventRoute = (id: string | undefined, contentType: string | undefined) => (contentType === 'EVENT' ? `/events/${id}` : id);
+  const isEventRoute = (id: string | undefined, contentType: string | undefined) => (contentType ? `/events/${id}` : pathName);
 
   const trimDescription = (desc: string, length: number): string => {
     if (desc.length > length) return desc.slice(0, length + 1) + '...';
@@ -43,7 +44,7 @@ const SearchListItem: FC<SearchListItemProps> = ({ id, title, description, conte
           <Link
             sx={{ color: 'inherit', textDecoration: 'underline', cursor: 'pointer' }}
             component={RouterLink}
-            to={`/${isEventRoute(id, contentType)}`}>
+            to={`${isEventRoute(pathName, contentType)}`}>
             {title}"
           </Link>
         </Typography>
