@@ -46,7 +46,7 @@ const Events: FC = () => {
 
   const bannerEvent = cardsEvent.filter((item) => item.isBanner)[0];
 
-  const visibleEvents = cardsEvent.filter((item) => !item.isBanner).slice(1, pageSize);
+  const visibleEvents = cardsEvent.filter((item) => !item.isBanner).slice(0, pageSize);
 
   return (
     <Section variant="light">
@@ -77,7 +77,7 @@ const Events: FC = () => {
                           gap: { xs: '16px', md: '24px', lg: '48px' },
                         }}>
                         <WrapperImg>
-                          <img src={urlFor(event.imgSrc).flipHorizontal().url()} alt="event logo" />
+                          <img src={urlFor(event.imgSrc).url()} alt="event logo" />
                         </WrapperImg>
                         <Box>
                           <Box
