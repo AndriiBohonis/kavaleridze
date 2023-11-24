@@ -1,12 +1,34 @@
 import { Box, BoxProps, Grow, Stack, Typography, TypographyProps, styled } from '@mui/material';
 import { PortableText } from '@portabletext/react';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 interface EventDetailsProps {
   banner: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: any;
 }
 
+interface IBlokProps {
+  value: {
+    blank: string;
+    href: string;
+  };
+  children: ReactNode;
+}
+const components = {
+  marks: {
+    link: ({ value, children }: IBlokProps) => {
+      const { blank, href } = value;
+      console.log(value);
+      return blank ? (
+        <a href={href} target="_blank" rel="noopener">
+          {children}
+        </a>
+      ) : (
+        <a href={href}>{children}</a>
+      );
+    },
+  },
+};
 const EventDetails: FC<EventDetailsProps> = ({ banner, content }) => {
   const ImageBox = styled(Box)<BoxProps>(({ theme }) => ({
     borderRadius: '4px',
@@ -68,7 +90,7 @@ const EventDetails: FC<EventDetailsProps> = ({ banner, content }) => {
               paddingBottom: '10px',
             },
           }}>
-          <PortableText value={content} />
+          <PortableText value={content} components={components as any} />
         </EventText>
       </Grow>
     </Stack>
