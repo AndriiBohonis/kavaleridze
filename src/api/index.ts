@@ -43,11 +43,11 @@ export const getSearchSanity = async (query: string) => {
 
   const pages = await client.fetch(`*[_type == 'search'&& description match '${query}*']{
    description,
-      pathName,
-          "title":name
-        }`);
+   pathName,
+   "title":name
+    }`);
 
-  return [...pages, ...events];
+  return [...events, ...pages];
 };
 
 export async function getAllEvents() {
@@ -58,8 +58,8 @@ export async function getAllEvents() {
   isBanner,
   end,
   'slug':slug.current,
-    imgSrc,
-    'shortDec': shortDec[0].children,
+  imgSrc,
+  'shortDec': shortDec[0].children,
 }
   `);
 }
@@ -71,7 +71,7 @@ export async function getCurrentEvents(slug: string) {
   end,
   imgSrc,
   'shortDec': shortDec[0].children,
-   description
+  description
   
     }
   `);
