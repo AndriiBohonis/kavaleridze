@@ -25,7 +25,7 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
 
   return (
     <Grow in={true} timeout={1000}>
-      <BannerWrapper img={urlFor(event.imgSrc).url()}>
+      <BannerWrapper img={urlFor(event.imgSrc).auto('format').fit('scale').url().toString()}>
         <ContentBox>
           <TextBox>
             <Typography

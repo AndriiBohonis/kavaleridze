@@ -45,7 +45,7 @@ const Event: FC = () => {
         {dataEvent && (
           <ContentBox>
             <EventTitle {...(dataEvent as any)} />
-            <EventDetails banner={urlFor(dataEvent?.imgSrc).url()} content={dataEvent.description} />
+            <EventDetails banner={urlFor(dataEvent?.imgSrc).auto('format').fit('scale').url().toString()} content={dataEvent.description} />
             <BackToEventsBtn title={isMobile ? 'До всіх подій' : 'Повернутися до всіх подій'} />
           </ContentBox>
         )}

@@ -7,6 +7,21 @@ interface EventDetailsProps {
   content: any;
 }
 
+const components = {
+  marks: {
+    link: ({ value, children }: any) => {
+      const { blank, href } = value;
+      return blank ? (
+        <a href={href} target="_blank" rel="noopener">
+          {children}
+        </a>
+      ) : (
+        <a href={href}>{children}</a>
+      );
+    },
+  },
+};
+
 const EventDetails: FC<EventDetailsProps> = ({ banner, content }) => {
   const ImageBox = styled(Box)<BoxProps>(({ theme }) => ({
     borderRadius: '4px',
@@ -68,7 +83,7 @@ const EventDetails: FC<EventDetailsProps> = ({ banner, content }) => {
               paddingBottom: '10px',
             },
           }}>
-          <PortableText value={content} />
+          <PortableText value={content} components={components as any} />
         </EventText>
       </Grow>
     </Stack>

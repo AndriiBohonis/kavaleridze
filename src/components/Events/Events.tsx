@@ -77,7 +77,7 @@ const Events: FC = () => {
                           gap: { xs: '16px', md: '24px', lg: '48px' },
                         }}>
                         <WrapperImg>
-                          <img src={urlFor(event.imgSrc).url()} alt="event logo" />
+                          <img src={urlFor(event.imgSrc).auto('format').fit('scale').url().toString()} alt="event logo" />
                         </WrapperImg>
                         <Box>
                           <Box
