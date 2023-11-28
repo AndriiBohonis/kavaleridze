@@ -47,7 +47,7 @@ export const getSearchSanity = async (query: string) => {
           "title":name
         }`);
 
-  return [...pages, ...events];
+  return [...events, ...pages];
 };
 
 export async function getAllEvents() {
