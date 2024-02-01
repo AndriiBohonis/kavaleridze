@@ -70,7 +70,7 @@ const ListTypography = ({ title, svg }: IListTextProps) => (
 export const ListContacts = () => {
   const { data } = useData();
 
-  const phone = data ? data.tel : 'phone number';
+  const phone = data ? data.phoneNumber : 'phone number';
   const email = data ? data.email : 'email';
 
   return (
