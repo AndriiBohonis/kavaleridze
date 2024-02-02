@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
 
-interface EventTitleProps {
+export interface EventTitleProps {
   title: string;
   start?: string;
   end?: string;

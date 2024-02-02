@@ -110,6 +110,24 @@ export const MuiTypography: Components<Theme>['MuiTypography'] = {
       }),
     },
     {
+      props: { variant: 'h4' },
+      style: ({ theme }) => ({
+        fontFamily: 'Raleway',
+        fontVariantNumeric: 'lining-nums proportional-nums',
+        fontWeight: 500,
+        fontSize: 18,
+        lineHeight: 1.222, //22px,
+        [theme.breakpoints.up('md')]: {
+          fontSize: 20,
+          lineHeight: 1.2, //24px,
+        },
+        [theme.breakpoints.up('lg')]: {
+          fontSize: 24,
+          lineHeight: 1.167, //28px,
+        },
+      }),
+    },
+    {
       props: { variant: 'subhead' },
       style: ({ theme }) => ({
         fontFamily: 'Raleway',

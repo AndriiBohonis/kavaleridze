@@ -51,16 +51,17 @@ export const getSearchSanity = async (query: string) => {
 };
 
 export async function getAllEvents() {
-  return client.fetch(`*[_type == 'events']{
+  return client.fetch(`*[_type == 'events']| order( _createdAt desc
+){
   _id,
   title,
   start,
   isBanner,
   end,
   'slug':slug.current,
-    imgSrc,
-    'shortDec': shortDec[0].children,
-}
+    'imgSrc':img,
+    shortDec,
+  }
   `);
 }
 export async function getCurrentEvents(slug: string) {
@@ -69,11 +70,9 @@ export async function getCurrentEvents(slug: string) {
   title,
   start,
   end,
-  imgSrc,
-  'shortDec': shortDec[0].children,
-   description
-  
-    }
+  'imgSrc':img,
+   description,
+  }
   `);
 }
 

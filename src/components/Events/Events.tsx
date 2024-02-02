@@ -14,9 +14,10 @@ import { WrapperImg } from './styles';
 
 import { urlFor } from '../../lib/client.ts';
 import { visuallyHidden } from '@/styles/visually-hidden';
+import { IEvent } from '@/types.js';
 
 const Events: FC = () => {
-  const [cardsEvent, setCardsEvent] = useState<any[]>([]);
+  const [cardsEvent, setCardsEvent] = useState<IEvent[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalEvents, setTotalEvents] = useState<number>(0);
   const [pageSize, setPageSize] = useState(4);
@@ -90,12 +91,7 @@ const Events: FC = () => {
                             <Typography variant="body1" sx={{ fontWeight: '600' }}>
                               {formatDate(event.start, event.end)}
                             </Typography>
-                            <Typography variant="caption">
-                              {truncateDescription(
-                                event.shortDec?.map((item: { text: string }) => item.text),
-                                150
-                              )}
-                            </Typography>
+                            <Typography variant="caption">{truncateDescription(event.shortDec, 150)}</Typography>
                           </Box>
                           <RouterLink state={{ title: event.title }} to={event.slug}>
                             <ButtonWithIcon
