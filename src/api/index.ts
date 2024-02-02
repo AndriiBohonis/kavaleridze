@@ -37,12 +37,13 @@ export const getSearchSanity = async (query: string) => {
   'id': _id,
   title,
  'pathName':slug.current,
-  'description':shortDec[0].children[0].text,
+  'description':shortDec,
   'contentType':category,
   }`);
 
   const pages = await client.fetch(`*[_type == 'search'&& description match '${query}*']{
    description,
+     'contentType':*[_type == 'category']{_id},
       pathName,
           "title":name
         }`);
