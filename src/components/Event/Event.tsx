@@ -13,10 +13,14 @@ import { useParams } from 'react-router-dom';
 import { getCurrentEvents } from '@/api';
 
 import { urlFor } from '../../lib/client.ts';
+import { PortableTextBlock } from '@portabletext/types';
 
 interface IData {
   imgSrc: string;
-  description: any;
+  title: string;
+  start?: string;
+  end?: string;
+  description: PortableTextBlock[];
 }
 const Event: FC = () => {
   const { breakpoints } = useTheme();
@@ -37,14 +41,13 @@ const Event: FC = () => {
       setIsLoading(false);
     });
   }, [title]);
-
   return (
     <Section variant="light">
       <Container>
         {isLoading && <Loader visible={isLoading} />}
         {dataEvent && (
           <ContentBox>
-            <EventTitle {...(dataEvent as any)} />
+            <EventTitle {...dataEvent} />
             <EventDetails banner={urlFor(dataEvent?.imgSrc).auto('format').fit('scale').url().toString()} content={dataEvent.description} />
             <BackToEventsBtn title={isMobile ? 'До всіх подій' : 'Повернутися до всіх подій'} />
           </ContentBox>

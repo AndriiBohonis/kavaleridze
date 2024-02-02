@@ -7,14 +7,12 @@ import { urlFor } from '../../lib/client.js';
 
 interface MuseumEventProps {
   title: string;
-  summary: string;
+
   banner: string;
   slug: string;
   imgSrc: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  shortDec: {
-    text: string;
-  }[];
+  shortDec: string;
 }
 
 const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
@@ -40,7 +38,7 @@ const Banner: FC<{ event: MuseumEventProps }> = ({ event }) => {
               sx={{
                 color: theme.palette.text.primary,
               }}>
-              {truncateDescription(event?.shortDec?.map((item) => item.text).toString(), 200)}
+              {truncateDescription(event.shortDec, 200)}
             </Typography>
           </TextBox>
           <ButtonBox>

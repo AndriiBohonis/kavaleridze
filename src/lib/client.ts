@@ -1,3 +1,4 @@
+import { IIGallery, IImage, IImageP } from '@/types';
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
@@ -12,6 +13,6 @@ export const client = createClient({
 
 const builder = imageUrlBuilder(client);
 
-export function urlFor(source: string) {
+export function urlFor(source: IImageP | IImage | IIGallery | string) {
   return builder.image(source);
 }

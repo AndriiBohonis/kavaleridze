@@ -6,18 +6,21 @@ import { truncateDescription } from '@/helpers/truncateString';
 import { WrapperImg } from './styles';
 import { urlFor } from '../../../lib/client';
 
-// interface IDataSliderProps {
-//   title: string;
-//   begin: string;
-//   end: string;
-//   description: string;
-//   banner: string;
-//   slug: string;
-// }
+interface IDataSliderProps {
+  _id: string;
+  title: string;
+  start: string;
+  end: string;
+  description: string;
+  banner: string;
+  slug: string;
+  shortDec: string;
+  imgSrc: string;
+}
 
-// interface IFullData {
-//   sliderInfo: IDataSliderProps[];
-// }
+interface IFullData {
+  sliderInfo: IDataSliderProps[];
+}
 
 // Import Swiper styles
 import 'swiper/css';
@@ -31,7 +34,9 @@ import './sliderStyles.css';
 import { Keyboard, Navigation, Pagination } from 'swiper/modules';
 import { formatDate } from '@/helpers/formatDate';
 
-const Slider = ({ sliderInfo }: any) => {
+import { FC } from 'react';
+
+const Slider: FC<IFullData> = ({ sliderInfo }) => {
   return (
     <Swiper
       navigation={true}
@@ -43,7 +48,7 @@ const Slider = ({ sliderInfo }: any) => {
       spaceBetween={80}
       modules={[Navigation, Pagination, Keyboard]}
       className="mySwiper">
-      {sliderInfo.map((event: any) => (
+      {sliderInfo.map((event) => (
         <SwiperSlide key={event._id}>
           <Box sx={{ display: 'flex', flexDirection: { xs: 'column-reverse', md: 'row' }, gap: { xs: '24px', lg: '26px' } }}>
             <Box sx={{ width: { xs: '100%', lg: '452px' }, display: 'flex', flexDirection: 'column', gap: { xs: '24px', lg: '40px' } }}>
@@ -54,12 +59,7 @@ const Slider = ({ sliderInfo }: any) => {
                 <Typography variant="body1" sx={{ fontWeight: '600' }}>
                   {formatDate(event.start, event.end)}
                 </Typography>
-                <Typography variant="caption">
-                  {truncateDescription(
-                    event.shortDec?.map((item: { text: string }) => item.text),
-                    150
-                  )}
-                </Typography>
+                <Typography variant="caption">{truncateDescription(event.shortDec, 150)}</Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                 <RouterLink state={{ title: event.title }} to={`events/${event.slug}`}>

@@ -25,16 +25,20 @@ export interface IPage {
 }
 
 export interface IEvent {
-  id: string;
+  _id: string;
   title: string;
   banner: string;
+  isBanner: boolean;
+  imgSrc: string;
   description: string;
   begin: string;
+  start: string;
   end: string;
+  shortDec: string;
   slug: string;
   summary: string;
   created: Date; //дата створення події
-  content: ContentType[];
+  content: [];
 }
 
 export interface IMuseumEventData {
@@ -62,4 +66,26 @@ export interface IAdmin {
   //ToDo: change interface due to backend response
   id: string;
   name: string;
+}
+
+export interface IImageP {
+  alt: string;
+  asset: {
+    _ref: string;
+  };
+  _key: string;
+}
+interface IIGallery extends IImageP {
+  photoLayout: {
+    cols: number;
+    rows: number;
+  };
+  title: string;
+}
+export interface IPortableImgGallery {
+  value: {
+    images: IIGallery[];
+    title: string;
+    option: boolean;
+  };
 }
