@@ -2,13 +2,13 @@ import { Box, Dialog, ImageList, ImageListItem, Typography } from '@mui/material
 import { FC, useState } from 'react';
 
 import { urlFor } from '@/lib/client';
-import { IImage, IPortableImgGallery } from '@/types';
+import { IImageP, IPortableImgGallery } from '@/types';
 
 const GridGallery: FC<IPortableImgGallery> = ({ value }) => {
   const { images, title } = value;
   const [open, setOpen] = useState(false);
-  const [imgSrc, setImg] = useState<IImage>();
-  const handleClickOpen = (img: IImage) => {
+  const [imgSrc, setImg] = useState<IImageP>();
+  const handleClickOpen = (img: IImageP) => {
     setImg(img);
     setOpen(true);
   };

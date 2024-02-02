@@ -38,7 +38,7 @@ export interface IEvent {
   slug: string;
   summary: string;
   created: Date; //дата створення події
-  content: ContentType[];
+  content: [];
 }
 
 export interface IMuseumEventData {
@@ -68,14 +68,14 @@ export interface IAdmin {
   name: string;
 }
 
-export interface IImage {
+export interface IImageP {
   alt: string;
   asset: {
     _ref: string;
   };
   _key: string;
 }
-interface IIGallery extends IImage {
+interface IIGallery extends IImageP {
   photoLayout: {
     cols: number;
     rows: number;

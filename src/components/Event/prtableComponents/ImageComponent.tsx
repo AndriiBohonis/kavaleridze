@@ -2,12 +2,12 @@ import { Box } from '@mui/material';
 import { FC, Suspense, lazy } from 'react';
 import { PortableSwiper } from './Swiper/Swiper';
 import { urlFor } from '@/lib/client';
-import { IImage, IPortableImgGallery } from '@/types';
+import { IImageP, IPortableImgGallery } from '@/types';
 
 const GridGallery = lazy(() => import('./GridGallery'));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const ImageComponent = ({ value }: { value: IImage }) => {
+export const ImageComponent = ({ value }: { value: IImageP }) => {
   return (
     <Box sx={{ my: { xs: '32px', md: '40px' } }}>
       <Box
